@@ -14,6 +14,10 @@ namespace LiteCommerce.BusinessLayers
     public static class HRService
     {
         private static IEmployeeDAL EmployeeDB;
+        private static ISupplierDAL SupplierDB;
+        private static IShipperDAL ShipperDB;
+        private static ICustomerDAL CustomerDB;
+        private static ICategoryDAL CategoryDB;
         /// <summary>
         /// Khởi tạo tầng nghiệp vụ
         /// (Hàm này phải được gọi trước khi sử dụng các chức năng khác trong lớp)
@@ -26,6 +30,10 @@ namespace LiteCommerce.BusinessLayers
             {
                 case DatabaseTypes.SQLServer:
                     EmployeeDB = new LiteCommerce.DataLayers.SQLServer.EmployeeDAL(connectionString);
+                    SupplierDB = new LiteCommerce.DataLayers.SQLServer.SupplierDAL(connectionString);
+                    ShipperDB = new LiteCommerce.DataLayers.SQLServer.ShipperDAL(connectionString);
+                    CustomerDB = new LiteCommerce.DataLayers.SQLServer.CustomerDAL(connectionString);
+                    CategoryDB = new LiteCommerce.DataLayers.SQLServer.CategoryDAL(connectionString);
                     break;
                 case DatabaseTypes.FakeDB:
 
@@ -39,5 +47,25 @@ namespace LiteCommerce.BusinessLayers
         {
             return EmployeeDB.List();
         }
+
+        /*public static List<Supplier> Supplier_List()
+        {
+            return SupplierDB.List();
+        }*/
+
+        /*public static List<Shipper> Shipper_List()
+        {
+            return ShipperDB.List();
+        }*/
+
+        /*public static List<Customer> Customer_List()
+        {
+            return CustomerDB.List();
+        }*/
+
+        /*public static List<Category> Category_List()
+        {
+            return CategoryDB.List();
+        }*/
     }
 }

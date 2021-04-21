@@ -1,0 +1,54 @@
+﻿
+@{
+    ViewBag.Title = "Xác nhận xóa nhân viên";
+}
+
+<form class="form-horizontal" method="post" action="~/Employee/Delete/1234">
+    <div class="form-group">
+        <label class="control-label col-sm-2">LastName</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">Davolio</p>
+        </div>
+
+        <label class="control-label col-sm-2">FirtsName:</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">Nancy</p>
+        </div>
+
+        <label class="control-label col-sm-2">Ngày sinh:</label>
+        <div class="col-sm-10">
+            <p class="form-control-static">1968-12-08</p>
+        </div>
+
+        <label class="control-label col-sm-2">Ảnh:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">Photo</p>
+        </div>
+        <label class="control-label col-sm-2">Ghi chú:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">Education</p>
+        </div>
+
+        <label class="control-label col-sm-2">Email:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">nancy.davolio@liteshop.com</p>
+        </div>
+        <label class="control-label col-sm-2">Password:</label>
+        <div class="col-sm-4">
+            <p class="form-control-static">ee10adc3949ba59abbe56e057f20f883e</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-offset-2 col-sm-10">
+            <p class="text-danger" style="font-size:18px">
+                Bạn có chắc chắn muốn xóa nhân viên này khỏi hệ thống hay không?
+            </p>
+        </div>
+        <div class="col-lg-offset-2 col-sm-10">
+            <button class="btn btn-danger">Đồng ý xóa</button>
+            <a href="~/Employee/Index" class="btn btn-warning">Bỏ qua</a>
+        </div>
+    </div>
+</form>
+
