@@ -55,17 +55,79 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public int Count(string searchValue)
         {
-            throw new NotImplementedException();
+            if (searchValue != "")
+                searchValue = "%" + searchValue + "%";
+            int result = 0;
+            using (SqlConnection cn = GetConnection())
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = @"SELECT COUNT(*)FROM Categories
+                                 WHERE(@searchValue = '')
+
+                                OR(
+                                        CategoryName LIKE @searchValue
+
+                                        OR  Description LIKE @searchValue
+
+                                        
+                                    )";
+                cmd.Parameters.AddWithValue("@searchValue", searchValue);
+
+                result = Convert.ToInt32(cmd.ExecuteScalar());
+                cn.Close();
+            }
+            return result;
         }
 
         public bool Delete(int categoryID)
         {
-            throw new NotImplementedException();
+            bool result = false;
+            using (SqlConnection cn = GetConnection())
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = @"DELETE FROM Categories
+                                    WHERE CategoryID = @categoryID
+                                    AND NOT EXISTS(SELECT * FROM Products
+                                    WHERE CategoryID = Categories.CategoryID)";
+
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+                result = cmd.ExecuteNonQuery() > 0;
+                cn.Close();
+            }
+
+            return result;
         }
 
         public Category Get(int categoryID)
         {
-            throw new NotImplementedException();
+            Category data = null;
+            using (SqlConnection cn = GetConnection())
+            {
+                SqlCommand cmd = cn.CreateCommand();
+
+                cmd.CommandText = @"SELECT *FROM Categories WHERE CategoryID =@categoryID";
+                cmd.CommandType = System.Data.CommandType.Text;
+                cmd.Parameters.AddWithValue("@CategoryID", categoryID);
+
+                using (SqlDataReader dbReader = cmd.ExecuteReader(CommandBehavior.CloseConnection))
+                {
+                    if (dbReader.Read())
+                    {
+
+                        data = new Category()
+                        {
+                            CategoryID = Convert.ToInt32(dbReader["CategoryID"]),
+                            CategoryName = Convert.ToString(dbReader["CategoryName"]),
+                            Description = Convert.ToString(dbReader["Description"]),
+                            ParentCategoryId = Convert.ToInt32(dbReader["ParentCategoryId"]),
+                        };
+
+                    }
+                }
+                cn.Close();
+            }
+            return data;
         }
 
         public List<Category> List(int page, int pageSize, string searchValue)
@@ -117,7 +179,8 @@ namespace LiteCommerce.DataLayers.SQLServer
                         data.Add(new Category()
                         {
                             CategoryName = Convert.ToString(dbReader["CategoryName"]),
-                            Description = Convert.ToString(dbReader["Description"])
+                            Description = Convert.ToString(dbReader["Description"]),
+                            ParentCategoryId = Convert.ToInt32(dbReader["ParentCategoryId"])
                         });
 
                     }
@@ -130,7 +193,30 @@ namespace LiteCommerce.DataLayers.SQLServer
 
         public bool Update(Category data)
         {
-            throw new NotImplementedException();
+            int CategoryID = 31;
+            bool result = false;
+            using (SqlConnection cn = GetConnection())
+            {
+                SqlCommand cmd = cn.CreateCommand();
+                cmd.CommandText = @"UPDATE Categories
+                                    SET CategoryName = @CategoryName,
+                                         Description = @Description,
+                                         ParentCategoryId = @ParentCategoryId
+                                         
+                                     WHERE CategoryID = @CategoryID";
+
+                cmd.CommandType = System.Data.CommandType.Text;
+
+                cmd.Parameters.AddWithValue("@CategoryID", CategoryID);
+
+                cmd.Parameters.AddWithValue("@CategoryName", data.CategoryName);
+                cmd.Parameters.AddWithValue("@Description", data.Description);
+                cmd.Parameters.AddWithValue("@ParentCategoryId", data.ParentCategoryId);
+                
+                result = cmd.ExecuteNonQuery() > 0;
+                cn.Close();
+            }
+            return result;
         }
     }
 }
