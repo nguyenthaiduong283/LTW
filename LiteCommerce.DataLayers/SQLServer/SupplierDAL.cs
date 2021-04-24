@@ -151,7 +151,7 @@ namespace LiteCommerce.DataLayers.SQLServer
         public List<Supplier> List(int page, int pageSize, string searchValue)
         {
             if (searchValue != "")
-                searchValue = " % " + searchValue + "%";
+                searchValue = "%" + searchValue + "%";
 
 
             List<Supplier> data = new List<Supplier>();

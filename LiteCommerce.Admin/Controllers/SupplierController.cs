@@ -10,9 +10,36 @@ namespace LiteCommerce.Admin.Controllers
     public class SupplierController : Controller
     {
         // GET: Supplier
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, string searchValue = "")
         {
-            return View();
+            //int rowCount = 0;
+            //int pageSize = 5;
+
+            //var listOfSuppliers = DataService.ListSuppliers(page, pageSize, searchValue, out rowCount);
+            //int pageCount = rowCount / pageSize;
+            //if (rowCount % pageSize > 0)
+            //    pageCount += 1;
+
+            //ViewBag.Page = page;
+            //ViewBag.RowCount = rowCount;
+            //ViewBag.PageCount = pageCount;
+            //ViewBag.SearchValue = searchValue;
+
+            //return View(listOfSuppliers);
+
+            int rowCount = 0;
+            int pageSize = 5;
+            var listOfSupplier = DataService.ListSuppliers(page, pageSize, searchValue, out rowCount);
+
+            var model = new Models.SupplierPaginationQueryResult()
+            {
+                Page = page,
+                PageSize = pageSize,
+                SearchValue = searchValue,
+                RowCount = rowCount,
+                Data = listOfSupplier
+            };
+            return View(model);
         }
         /// <summary>
         /// 
