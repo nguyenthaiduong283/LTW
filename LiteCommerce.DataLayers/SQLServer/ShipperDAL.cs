@@ -111,7 +111,7 @@ namespace LiteCommerce.DataLayers.SQLServer
         public List<Shipper> List(int page, int pageSize, string searchValue)
         {
             if (searchValue != "")
-                searchValue = " % " + searchValue + "%";
+                searchValue = "%" + searchValue + "%";
 
             List<Shipper> data = new List<Shipper>();
             using (SqlConnection cn = GetConnection())

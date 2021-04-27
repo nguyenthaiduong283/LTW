@@ -142,7 +142,7 @@ namespace LiteCommerce.DataLayers.SQLServer
                 cmd.CommandText = @"SELECT*
                                     FROM
                                     (
-                                        SELECT *, ROW_NUMBER() OVER(ORDER BY CategoryName) AS RowNumber
+                                        SELECT *, ROW_NUMBER() OVER (ORDER BY CategoryName) AS RowNumber
 
                                         FROM Categories
 
@@ -151,11 +151,10 @@ namespace LiteCommerce.DataLayers.SQLServer
                                             OR(
                                                     CategoryName LIKE @searchValue    
                                                     OR  Description LIKE @searchValue
-                                                    
-                                                    
+                                                   
                                                 )
                                     ) AS s
-                                    WHERE s.RowNumber BETWEEN(@page -1)*@pageSize + 1 AND @page*@pageSize";
+                                    WHERE s.RowNumber BETWEEN (@page -1) * @pageSize + 1 AND @page*@pageSize";
                 cmd.CommandType = System.Data.CommandType.Text;
                 cmd.Connection = cn;
 
@@ -179,8 +178,8 @@ namespace LiteCommerce.DataLayers.SQLServer
                         data.Add(new Category()
                         {
                             CategoryName = Convert.ToString(dbReader["CategoryName"]),
-                            Description = Convert.ToString(dbReader["Description"]),
-                            ParentCategoryId = Convert.ToInt32(dbReader["ParentCategoryId"])
+                            Description = Convert.ToString(dbReader["Description"])
+                            
                         });
 
                     }

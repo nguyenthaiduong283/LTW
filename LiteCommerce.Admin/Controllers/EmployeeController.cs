@@ -10,9 +10,20 @@ namespace LiteCommerce.Admin.Controllers
     public class EmployeeController : Controller
     {
         // GET: Employee
-        public ActionResult Index()
+        public ActionResult Index(int page = 1, string searchValue = "")
         {
-            var model = HRService.Employee_List();
+            int rowCount = 0;
+            int pageSize = 3;
+            var listOfEmployee = DataService.ListEmployees(page, pageSize, searchValue, out rowCount);
+
+            var model = new Models.EmployeePaginationQueryResult()
+            {
+                Page = page,
+                PageSize = pageSize,
+                SearchValue = searchValue,
+                RowCount = rowCount,
+                Data = listOfEmployee
+            };
             return View(model);
         }
 

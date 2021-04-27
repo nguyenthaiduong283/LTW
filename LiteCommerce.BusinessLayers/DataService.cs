@@ -16,6 +16,11 @@ namespace LiteCommerce.BusinessLayers
         private static ICountryDAL CountryDB;
         private static ICityDAL CityDB;
         private static ISupplierDAL SupplierDB;
+
+        private static IEmployeeDAL EmployeeDB;
+        private static IShipperDAL ShipperDB;
+        private static ICustomerDAL CustomerDB;
+        private static ICategoryDAL CategoryDB;
         /// <summary>
         /// Khởi tạo tính năng tác nghiệp ( hàm này phải được gọi nếu muốn sử dụng các tính năng của lớp)
         /// </summary>
@@ -29,6 +34,11 @@ namespace LiteCommerce.BusinessLayers
                     CountryDB = new DataLayers.SQLServer.CountryDAL(connectionString);
                     CityDB = new DataLayers.SQLServer.CityDAL(connectionString);
                     SupplierDB = new DataLayers.SQLServer.SupplierDAL(connectionString);
+
+                    ShipperDB = new DataLayers.SQLServer.ShipperDAL(connectionString);
+                    EmployeeDB = new DataLayers.SQLServer.EmployeeDAL(connectionString);
+                    CustomerDB = new DataLayers.SQLServer.CustomerDAL(connectionString);
+                    CategoryDB = new DataLayers.SQLServer.CategoryDAL(connectionString);
                     break;
                 default:
                     throw new Exception("Database Type is not Supported");
@@ -102,5 +112,34 @@ namespace LiteCommerce.BusinessLayers
         {
             return SupplierDB.Get(supplierID);
         }
+
+
+
+
+        public static List<Shipper> ListShippers(int page, int pageSize, String searchValue, out int rowCount)
+        {
+            rowCount = ShipperDB.Count(searchValue);
+            return ShipperDB.List(page, pageSize, searchValue);
+        }
+
+        public static List<Employee> ListEmployees(int page, int pageSize, String searchValue, out int rowCount)
+        {
+            rowCount = EmployeeDB.Count(searchValue);
+            return EmployeeDB.List(page, pageSize, searchValue);
+        }
+
+
+        public static List<Customer> ListCustomers(int page, int pageSize, String searchValue, out int rowCount)
+        {
+            rowCount = CustomerDB.Count(searchValue);
+            return CustomerDB.List(page, pageSize, searchValue);
+        }
+
+        public static List<Category> ListCategorys(int page, int pageSize, String searchValue, out int rowCount)
+        {
+            rowCount = CategoryDB.Count(searchValue);
+            return CategoryDB.List(page, pageSize, searchValue);
+        }
+
     }
 }
